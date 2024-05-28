@@ -57,7 +57,9 @@ class ReceitasBaseLayout extends StatelessWidget {
                                 style: TextStyle(color: Colors.white)),
                             trailing: const Icon(Icons.keyboard_arrow_right,
                                 color: Colors.white),
-                            onTap: () {},
+                            onTap: () {
+                              navigateToPage(context, '/home');
+                            },
                           ),
                         ],
                       )
@@ -88,7 +90,9 @@ class ReceitasBaseLayout extends StatelessWidget {
                                 style: TextStyle(color: Colors.white)),
                             trailing: const Icon(Icons.keyboard_arrow_right,
                                 color: Colors.white),
-                            onTap: () {},
+                            onTap: () {
+                              navigateToPage(context, '/my-recips');
+                            },
                           ),
                           ListTile(
                             leading: const Icon(

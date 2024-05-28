@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:how/src/screen/home_screen/home_screen.dart';
+import 'package:how/src/screen/my_recips/my_recips_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -42,6 +43,7 @@ class MyApp extends StatelessWidget {
       home: const HomeScreen(),
       routes: {
         HomeScreen.routeName: (context) => const HomeScreen(),
+        MyRecipsScreen.routeName: (context) => const MyRecipsScreen(),
       },
     );
   }
