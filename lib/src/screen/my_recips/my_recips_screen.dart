@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:how/src/screen/home_screen/components/body.dart';
+import 'package:how/src/screen/my_recips/components/body.dart';
 import 'package:how/src/widgets/receitas_base_layout.dart';
 
 class MyRecipsScreen extends StatelessWidget {
-  static String routeName = '/my-recips';
+  static const String routeName = '/my-recips';
 
   const MyRecipsScreen({super.key});
 
