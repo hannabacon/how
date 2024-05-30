@@ -57,9 +57,7 @@ class ReceitasBaseLayout extends StatelessWidget {
                                 style: TextStyle(color: Colors.white)),
                             trailing: const Icon(Icons.keyboard_arrow_right,
                                 color: Colors.white),
-                            onTap: () {
-                              navigateToPage(context, '/home');
-                            },
+                            onTap: () => navigateToPage(context, '/home'),
                           ),
                         ],
                       )
@@ -90,9 +88,8 @@ class ReceitasBaseLayout extends StatelessWidget {
                                 style: TextStyle(color: Colors.white)),
                             trailing: const Icon(Icons.keyboard_arrow_right,
                                 color: Colors.white),
-                            onTap: () {
-                              navigateToPage(context, '/my-recips');
-                            },
+                            onTap: () => Navigator.pushNamed(context, '/my-recips-fav'),
+
                           ),
                           ListTile(
                             leading: const Icon(
@@ -102,7 +99,8 @@ class ReceitasBaseLayout extends StatelessWidget {
                                 style: TextStyle(color: Colors.white)),
                             trailing: const Icon(Icons.keyboard_arrow_right,
                                 color: Colors.white),
-                            onTap: () {},
+                            onTap: () => Navigator.pushNamed(context, '/my-recips'),
+
                           ),
                           ListTile(
                             leading: const Icon(Icons.person,
@@ -111,7 +109,7 @@ class ReceitasBaseLayout extends StatelessWidget {
                                 style: TextStyle(color: Colors.white)),
                             trailing: const Icon(Icons.keyboard_arrow_right,
                                 color: Colors.white),
-                            onTap: () {},
+                            onTap: () => Navigator.pushNamed(context, '/my-profile'),
                           ),
                         ],
                       )

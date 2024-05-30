@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:how/src/screen/create_recips/create_recips_screen.dart';
 import 'package:how/src/screen/home_screen/home_screen.dart';
+import 'package:how/src/screen/my_profile/my_profile_screen.dart';
 import 'package:how/src/screen/my_recips/my_recips_screen.dart';
+import 'package:how/src/screen/my_recips_edit/my_recips_edit_screen.dart';
+import 'package:how/src/screen/my_recips_fav/my_recips_fav_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -43,7 +47,11 @@ class MyApp extends StatelessWidget {
       home: const HomeScreen(),
       routes: {
         HomeScreen.routeName: (context) => const HomeScreen(),
+        MyRecipsFavScreen.routeName: (context) => const MyRecipsFavScreen(),
         MyRecipsScreen.routeName: (context) => const MyRecipsScreen(),
+        MyRecipsEditScreen.routeName: (context) => const MyRecipsEditScreen(),
+        CreateRecipsScreen.routeName: (context) => const CreateRecipsScreen(),
+        MyProfileScreen.routeName: (context) => const MyProfileScreen(),
       },
     );
   }
