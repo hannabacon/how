@@ -4,32 +4,31 @@ import 'package:mobx/mobx.dart';
 
 part 'create_recips_store.g.dart';
 
-class CreateRecipsStore = CreateRecipsBase with _$CreateRecipsStore;
+class CreateRecipsStore = _CreateRecipsBase with _$CreateRecipsStore;
 
-abstract class CreateRecipsBase with Store {
-  CreateRecipsBase() {
-    ingredientes.add(buildTextField());
+abstract class _CreateRecipsBase with Store {
+  _CreateRecipsBase() {
+    textControllers.add(TextEditingController());
   }
 
-    final GlobalKey<NavigatorState> createRecipsKey = GlobalKey<NavigatorState>();
+  final GlobalKey<NavigatorState> createRecipsKey = GlobalKey<NavigatorState>();
 
   @observable
   StatusPage statusPage = StatusPage.loading;
 
-
-  ObservableList<Widget> ingredientes = ObservableList.of([]);
+  @observable
+  ObservableList<TextEditingController> textControllers =
+      ObservableList<TextEditingController>();
 
   @action
   void addTextField() {
-    ingredientes.add(buildTextField());
+    textControllers.add(TextEditingController());
   }
 
-  Widget buildTextField() {
-    return const TextField(
-      decoration: InputDecoration(
-        border: OutlineInputBorder(),
-        labelText: 'Ingredientes',
-      ),
-    );
+  @action
+  void removeTextField() {
+    if (textControllers.isNotEmpty) {
+      textControllers.removeLast();
+    }
   }
 }
