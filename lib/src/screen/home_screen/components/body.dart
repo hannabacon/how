@@ -36,7 +36,10 @@ class Body extends StatelessWidget {
                   ),
                 ),
                 trailing: IconButton(
-                  onPressed: () {},
+                  onPressed: () => Navigator.pushNamed(
+                    context,
+                    '/home-details',
+                  ),
                   icon: const Icon(Icons.arrow_forward_ios_rounded),
                 ),
               );

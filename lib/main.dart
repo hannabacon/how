@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:how/src/screen/create_recips/create_recips_screen.dart';
+import 'package:how/src/screen/home_details/home_details_screen.dart';
 import 'package:how/src/screen/home_screen/home_screen.dart';
 import 'package:how/src/screen/my_profile/my_profile_screen.dart';
 import 'package:how/src/screen/my_recips/my_recips_screen.dart';
@@ -52,6 +53,7 @@ class MyApp extends StatelessWidget {
         MyRecipsEditScreen.routeName: (context) => const MyRecipsEditScreen(),
         CreateRecipsScreen.routeName: (context) => const CreateRecipsScreen(),
         MyProfileScreen.routeName: (context) => const MyProfileScreen(),
+        HomeDetailsScreen.routeName: (context) => const HomeDetailsScreen(),
       },
     );
   }
