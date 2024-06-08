@@ -4,10 +4,10 @@ import 'package:mobx/mobx.dart';
 
 part 'create_recips_store.g.dart';
 
-class CreateRecipsStore = _CreateRecipsBase with _$CreateRecipsStore;
+class CreateRecipsStore = CreateRecipsBase with _$CreateRecipsStore;
 
-abstract class _CreateRecipsBase with Store {
-  _CreateRecipsBase() {
+abstract class CreateRecipsBase with Store {
+  CreateRecipsBase() {
     textControllers.add(TextEditingController());
   }
 

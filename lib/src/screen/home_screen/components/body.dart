@@ -18,23 +18,25 @@ class Body extends StatelessWidget {
         }
 
         if (store.statusPage == StatusPage.success) {
+          print(store.recips.length);
           return ListView.builder(
-            itemCount: store.receitas.length,
+            key: store.globalKey,
+            itemCount: store.recips.length,
             itemBuilder: (context, index) {
               return ListTile(
-                title: Text(store.receitas[index]['title']),
-                subtitle: Text(store.receitas[index]['subtitle']),
-                leading: Container(
-                  width: 90,
-                  height: 90,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(16),
-                    image: DecorationImage(
-                      image: AssetImage(store.receitas[index]['image']),
-                      fit: BoxFit.fitHeight,
-                    ),
-                  ),
-                ),
+                title: Text(store.recips[index]['title']),
+                subtitle: Text(store.recips[index]['description']),
+                // leading: Container(
+                //   width: 90,
+                //   height: 90,
+                //   decoration: BoxDecoration(
+                //     borderRadius: BorderRadius.circular(16),
+                //     image: DecorationImage(
+                //       image: AssetImage(store.recips[index]['image']),
+                //       fit: BoxFit.fitHeight,
+                //     ),
+                //   ),
+                // ),
                 trailing: IconButton(
                   onPressed: () => Navigator.pushNamed(
                     context,

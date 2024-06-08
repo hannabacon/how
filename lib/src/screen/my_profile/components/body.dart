@@ -4,7 +4,7 @@ import 'package:how/src/store/my_profile_store.dart';
 class Body extends StatelessWidget {
   final MyProfileStore store = MyProfileStore();
 
-  Body({Key? key}) : super(key: key);
+  Body({super.key});
 
   @override
   Widget build(BuildContext context) {

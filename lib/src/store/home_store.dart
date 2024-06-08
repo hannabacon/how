@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:how/src/helper/enums.dart';
+import 'package:how/src/services/recips_service.dart';
 import 'package:mobx/mobx.dart';
 
 part 'home_store.g.dart';
@@ -12,9 +13,9 @@ abstract class HomeBase with Store {
     getData();
   }
 
-  ObservableList<dynamic> receitas = ObservableList<dynamic>();
+  ObservableList<dynamic> recips = ObservableList<dynamic>();
 
-  final GlobalKey<NavigatorState> receitasKey = GlobalKey<NavigatorState>();
+  final GlobalKey<NavigatorState> globalKey = GlobalKey<NavigatorState>();
 
   @observable
   StatusPage statusPage = StatusPage.loading;
@@ -22,39 +23,15 @@ abstract class HomeBase with Store {
   @action
   Future<void> getData() async {
     try {
-      receitas.clear();
+      statusPage = StatusPage.loading;
 
-      receitas.add({
-        'title': 'Bolo de cenoura',
-        'subtitle': 'Bolo de cenoura com cobertura de chocolate',
-        'image': 'assets/images/bolo_cenoura.jpg',
-      });
+      Map<String, dynamic>? allRecips = await RecipsService().listAllrecips();
 
-      receitas.add({
-        'title': 'Bolo de fubá',
-        'subtitle': 'Bolo de fubá com goiabada',
-        'image': 'assets/images/bolo_cenoura.jpg',
-      });
+      if (allRecips?['listAllrecips'] != null) {
+        recips.addAll(allRecips!['listAllrecips']);
+      }
 
-      receitas.add({
-        'title': 'Bolo de laranja',
-        'subtitle': 'Bolo de laranja com cobertura de laranja',
-        'image': 'assets/images/bolo_cenoura.jpg',
-      });
-
-      receitas.add({
-        'title': 'Bolo de milho',
-        'subtitle': 'Bolo de milho com cobertura de goiabada',
-        'image': 'assets/images/bolo_cenoura.jpg',
-      });
-
-      receitas.add({
-        'title': 'Bolo de chocolate',
-        'subtitle': 'Bolo de chocolate com cobertura de chocolate',
-        'image': 'assets/images/bolo_cenoura.jpg',
-      });
-      
-  statusPage = StatusPage.success;
+      statusPage = StatusPage.success;
     } catch (e) {
       statusPage = StatusPage.error;
     }

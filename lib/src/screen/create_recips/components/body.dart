@@ -5,7 +5,7 @@ import 'package:how/src/store/create_recips_store.dart';
 class Body extends StatelessWidget {
   final CreateRecipsStore store = CreateRecipsStore();
 
-  Body({Key? key}) : super(key: key);
+  Body({super.key});
 
   @override
   Widget build(BuildContext context) {
