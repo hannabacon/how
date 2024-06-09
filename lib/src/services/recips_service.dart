@@ -11,6 +11,7 @@ class RecipsService {
     final query = graphql.gql(r'''
       query ListAllrecips {
         listAllrecips {
+          idRecips
           user {
             name
           }
@@ -29,11 +30,9 @@ class RecipsService {
       }
     ''');
 
-      graphql.QueryResult<Object?> response =
-          await client!.value.query(graphql.QueryOptions(document: query));
-  
-  
-  return response.data;
+      graphql.QueryResult<Object?> response = await client!.value.query(graphql.QueryOptions(document: query));
+
+      return response.data;
     }
 
   Future<Map<String, dynamic>?> findRecipsByUserId(data) async {
@@ -56,6 +55,27 @@ class RecipsService {
     graphql.QueryResult<Object?> response = await client!.value.query(graphql.QueryOptions(document: query, variables: data));
 
     return response.data;
-
   }
+
+  Future<Map<String, dynamic>?> findRecipsDetailsByIdRecips(String idRecips) async {
+    client = await Functions.generateGraphQLClient(useCache: false);
+  
+    final query = graphql.gql(r'''
+      query Query($idRecips: String!) {
+       findRecipsDetailsByIdRecips(idRecips: $idRecips) {
+        title
+        preparation
+        image
+        makings
+        description
+        updatedAt
+      }
+    }
+    ''');
+  
+    graphql.QueryResult<Object?> response = await client!.value.query(graphql.QueryOptions(document: query, variables: {'idRecips': idRecips}));
+  
+    return response.data;
+  }
+
 }

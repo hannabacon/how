@@ -29,8 +29,8 @@ mixin _$HomeDetailsStore on HomeDetailsBase, Store {
       AsyncAction('HomeDetailsBase.getData', context: context);
 
   @override
-  Future<void> getData() {
-    return _$getDataAsyncAction.run(() => super.getData());
+  Future<void> getData(String idRecips) {
+    return _$getDataAsyncAction.run(() => super.getData(idRecips));
   }
 
   @override

@@ -14,7 +14,6 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -25,23 +24,7 @@ class MyApp extends StatelessWidget {
           iconTheme: IconThemeData(color: Colors.white),
           centerTitle: true,
           titleTextStyle: TextStyle(color: Colors.white, fontSize: 20.0),
-          
         ),
-        // This is the theme of your application.
-        //
-        // TRY THIS: Try running your application with "flutter run". You'll see
-        // the application has a purple toolbar. Then, without quitting the app,
-        // try changing the seedColor in the colorScheme below to Colors.green
-        // and then invoke "hot reload" (save your changes or press the "hot
-        // reload" button in a Flutter-supported IDE, or press "r" if you used
-        // the command line to start the app).
-        //
-        // Notice that the counter didn't reset back to zero; the application
-        // state is not lost during the reload. To reset the state, use hot
-        // restart instead.
-        //
-        // This works for code too, not just values: Most code changes can be
-        // tested with just a hot reload.
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.red),
         useMaterial3: true,
       ),
@@ -53,35 +36,18 @@ class MyApp extends StatelessWidget {
         MyRecipsEditScreen.routeName: (context) => const MyRecipsEditScreen(),
         CreateRecipsScreen.routeName: (context) => const CreateRecipsScreen(),
         MyProfileScreen.routeName: (context) => const MyProfileScreen(),
-        HomeDetailsScreen.routeName: (context) => const HomeDetailsScreen(),
+      },
+      onGenerateRoute: (settings) {
+        if (settings.name == HomeDetailsScreen.routeName) {
+          final idRecips = settings.arguments as String;
+          return MaterialPageRoute(
+            builder: (context) {
+              return HomeDetailsScreen(idRecips: idRecips);
+            },
+          );
+        }
+        return null;
       },
     );
   }
 }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.red,
-      body: Container(
-        alignment: Alignment.center,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            SizedBox(
-              width: 200,
-              height: 100,
-              child:
-                  Image.asset('assets/images/bolo_cenoura.jpg', fit: BoxFit.contain),
-            ),
-            const Padding(
-              padding: EdgeInsets.only(top: 40),
-              child: CircularProgressIndicator(
-                backgroundColor: Colors.white,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }

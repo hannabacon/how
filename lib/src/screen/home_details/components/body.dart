@@ -5,9 +5,11 @@ import 'package:how/src/store/home_details_store.dart';
 import 'package:how/src/widgets/receitas_loading.dart';
 
 class Body extends StatelessWidget {
-  final HomeDetailsStore store = HomeDetailsStore();
+  final String idRecips;
+  final HomeDetailsStore store;
 
-  Body({super.key});
+  Body({required this.idRecips, super.key})
+      : store = HomeDetailsStore(idRecips);
 
   @override
   Widget build(BuildContext context) {
@@ -18,85 +20,77 @@ class Body extends StatelessWidget {
         }
 
         if (store.statusPage == StatusPage.success) {
-          return Column(
+          return ListView(
             children: [
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 2.0, horizontal: 8.0),
-                child: Expanded(
-                  child: Stack(
-                    alignment: Alignment.topRight,
-                    children: <Widget>[
-                      Center(
-                        child: Image.asset('assets/images/bolo_cenoura.jpg'),
+                child: Stack(
+                  alignment: Alignment.topRight,
+                  children: <Widget>[
+                    Center(
+                      child: Image.network(
+                        store.recipeDetails.first['image'],
+                        fit: BoxFit.cover,
+                        height: 300,
+                        width: 300,
                       ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: IconButton(
-                          icon: const Icon(Icons.favorite_border, size: 30, color: Colors.white),
-                          onPressed: () {
-                            // Add your logic here to favorite the recipe
-                          },
-                        ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: IconButton(
+                        icon: const Icon(Icons.favorite_border, size: 30, color: Colors.white),
+                        onPressed: () {
+                          // Adicione sua lógica para favoritar a receita aqui
+                        },
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
-                  Container(
-                    alignment: Alignment.topLeft,
-                    padding: const EdgeInsets.only(left: 10, top: 10),
-                    child: const Text(
-                      'Ingredientes:',
-                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                      textAlign: TextAlign.left,
-                    ),
-                  ),
-                  Container(
-                    alignment: Alignment.topLeft,
-                    padding: const EdgeInsets.only(left: 10, top: 10),
-                    child: Observer(
-                      builder: (_) {
-                      return Column(  
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: (store.details_recips[0]['ingredientes'] as Map<String, dynamic>).entries.map((ingredient) {
-                            return Text(
-                              '${ingredient.key}: ${ingredient.value}',
-                              textAlign: TextAlign.left,
-                            );
-                          }).toList(),
-                        );
-                      },
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  Container(
-                    alignment: Alignment.topLeft,
-                    padding: const EdgeInsets.only(left: 10, top: 10),
-                    child: const Text(
-                      'Modo de Preparo:',
-                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                      textAlign: TextAlign.left,
-                    ),
-                  ),
-                  Container(
-                    alignment: Alignment.topLeft,
-                    padding: const EdgeInsets.only(left: 10, top: 10),
-                    child: Column(  
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: store.details_recips.map((recipe) {
-                          return Text(
-                            recipe['preparo'],
-                            textAlign: TextAlign.left,
-                          );
-                        }).toList(),
-                      ),
-                  ),
+              Container(
+                alignment: Alignment.topLeft,
+                padding: const EdgeInsets.only(left: 10, top: 10),
+                child: const Text(
+                  'Ingredientes:',
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  textAlign: TextAlign.left,
+                ),
+              ),
+              Container(
+                alignment: Alignment.topLeft,
+                padding: const EdgeInsets.only(left: 10, top: 10),
+                child: Text(
+                  (store.recipeDetails.first['makings'] as String).split(',').join('\n'),
+                ),
+              ),
+              const SizedBox(height: 10),
+              Container(
+                alignment: Alignment.topLeft,
+                padding: const EdgeInsets.only(left: 10, top: 10),
+                child: const Text(
+                  'Modo de Preparo:',
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  textAlign: TextAlign.left,
+                ),
+              ),
+              Container(
+                alignment: Alignment.topLeft,
+                padding: const EdgeInsets.only(left: 10, top: 10),
+                child: Text(
+                  (store.recipeDetails.first['preparation']),
+                ),
+              ),
             ],
           );
         }
-        return const Center(
-          child: Text('Error'),
-        );
+
+        if (store.statusPage == StatusPage.error) {
+          return const Center(
+            child: Text('Erro ao carregar os detalhes da receita'),
+          );
+        }
+
+        return Container();
       }),
     );
   }

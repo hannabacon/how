@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:how/src/helper/enums.dart';
+import 'package:how/src/screen/home_details/home_details_screen.dart';
 import 'package:how/src/store/home_store.dart';
 import 'package:how/src/widgets/receitas_loading.dart';
 
@@ -25,6 +26,7 @@ class Body extends StatelessWidget {
             shrinkWrap: true,
             itemCount: store.recips.length,
             itemBuilder: (context, index) {
+              final idRecips = store.recips[index]['idRecips'] as String?;
               return ListTile(
                 title: Text(store.recips[index]['title']),
                 subtitle: Text(store.recips[index]['description']),
@@ -40,10 +42,16 @@ class Body extends StatelessWidget {
                   ),
                 ),
                 trailing: IconButton(
-                  onPressed: () => Navigator.pushNamed(
-                    context,
-                    '/home-details',
-                  ),
+                  onPressed: idRecips != null
+                      ? () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => HomeDetailsScreen(idRecips: idRecips),
+                            ),
+                          );
+                        }
+                      : null,
                   icon: const Icon(Icons.arrow_forward_ios_rounded),
                 ),
               );

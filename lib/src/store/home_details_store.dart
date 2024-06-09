@@ -10,12 +10,12 @@ part 'home_details_store.g.dart';
 class HomeDetailsStore = HomeDetailsBase with _$HomeDetailsStore;
 
 abstract class HomeDetailsBase with Store {
-  HomeDetailsBase() {
-    statusPage = StatusPage.loading;
-    getData();
-  }
+  HomeDetailsBase(String idRecips) {
+  statusPage = StatusPage.loading;
+  getData(idRecips);
+}
 
-  ObservableList<Map<String, dynamic>> details_recips = ObservableList<Map<String, dynamic>>();
+  ObservableList<Map<String, dynamic>> recipeDetails = ObservableList<Map<String, dynamic>>();
 
   final GlobalKey<NavigatorState> globalKey = GlobalKey<NavigatorState>();
 
@@ -23,14 +23,15 @@ abstract class HomeDetailsBase with Store {
   StatusPage statusPage = StatusPage.loading;
 
   @action
-  Future<void> getData() async {
+  Future<void> getData(String idRecips) async {
     try {
       statusPage = StatusPage.loading;
 
-      Map<String, dynamic>? details_recips = await RecipsService().listAllrecips();
+      Map<String, dynamic>? recipeDetailsResponse = await RecipsService().findRecipsDetailsByIdRecips(idRecips);
 
-      if (details_recips?['listAllrecips'] != null) {
-        details_recips?.addAll(details_recips['listAllrecips']);
+      if (recipeDetailsResponse?['findRecipsDetailsByIdRecips'] != null) {
+        recipeDetails.clear();
+        recipeDetails.add(recipeDetailsResponse!['findRecipsDetailsByIdRecips']);
       }
 
       statusPage = StatusPage.success;
