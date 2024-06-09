@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:how/src/helper/enums.dart';
@@ -19,18 +20,21 @@ class Body extends StatelessWidget {
 
         if (store.statusPage == StatusPage.success) {
           return ListView.builder(
-            itemCount: store.my_recips.length,
+            key: store.globalKey,
+            shrinkWrap: true,
+            primary: false,
+            itemCount: store.myRecips.length,
             itemBuilder: (context, index) {
               return ListTile(
-                title: Text(store.my_recips[index]['title']),
-                subtitle: Text(store.my_recips[index]['subtitle']),
+                title: Text(store.myRecips[index]['title']),
+                subtitle: Text(store.myRecips[index]['description']),
                 leading: Container(
                   width: 90,
                   height: 90,
-                  decoration: BoxDecoration(
+                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(16),
                     image: DecorationImage(
-                      image: AssetImage(store.my_recips[index]['image']),
+                      image: CachedNetworkImageProvider(store.myRecips[index]['image']),
                       fit: BoxFit.fitHeight,
                     ),
                   ),

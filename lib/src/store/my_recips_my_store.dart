@@ -1,7 +1,6 @@
-// ignore_for_file: non_constant_identifier_names
-
 import 'package:flutter/material.dart';
 import 'package:how/src/helper/enums.dart';
+import 'package:how/src/services/recips_service.dart';
 import 'package:mobx/mobx.dart';
 
 part 'my_recips_my_store.g.dart';
@@ -11,52 +10,28 @@ class MyRecipsStore = MyRecipsBase with _$MyRecipsStore;
 abstract class MyRecipsBase with Store {
   MyRecipsBase() {
     statusPage = StatusPage.loading;
-    getData();
+    getData({'idUser': 'clx70v0p2000011wh4lv00b87'});
   }
 
-  ObservableList<dynamic> my_recips = ObservableList<dynamic>();
+  ObservableList<dynamic> myRecips = ObservableList<dynamic>();
 
-  final GlobalKey<NavigatorState> my_recipsKey = GlobalKey<NavigatorState>();
+  final GlobalKey<NavigatorState> globalKey = GlobalKey<NavigatorState>();
 
   @observable
   StatusPage statusPage = StatusPage.loading;
 
   @action
-  Future<void> getData() async {
+  Future<void> getData(Map<String, String> data) async {
     try {
-      my_recips.clear();
-
-      my_recips.add({
-        'title': 'Bolo de cenoura',
-        'subtitle': 'Bolo de cenoura com cobertura de chocolate',
-        'image': 'assets/images/bolo_cenoura.jpg',
-      });
-
-      my_recips.add({
-        'title': 'Bolo de fubá',
-        'subtitle': 'Bolo de fubá com goiabada',
-        'image': 'assets/images/bolo_cenoura.jpg',
-      });
-
-      my_recips.add({
-        'title': 'Bolo de laranja',
-        'subtitle': 'Bolo de laranja com cobertura de laranja',
-        'image': 'assets/images/bolo_cenoura.jpg',
-      });
-
-      my_recips.add({
-        'title': 'Bolo de milho',
-        'subtitle': 'Bolo de milho com cobertura de goiabada',
-        'image': 'assets/images/bolo_cenoura.jpg',
-      });
-
-      my_recips.add({
-        'title': 'Bolo de chocolate',
-        'subtitle': 'Bolo de chocolate com cobertura de chocolate',
-        'image': 'assets/images/bolo_cenoura.jpg',
-      });
-      
-  statusPage = StatusPage.success;
+      statusPage = StatusPage.loading;
+  
+      Map<String, dynamic>? userRecips = await RecipsService().findRecipsByUserId(data);
+  
+      if (userRecips?['findRecipsByUserId'] != null) {
+        myRecips.addAll(userRecips!['findRecipsByUserId']);
+      }
+  
+      statusPage = StatusPage.success;
     } catch (e) {
       statusPage = StatusPage.error;
     }

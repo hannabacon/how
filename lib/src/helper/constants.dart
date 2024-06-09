@@ -1,3 +1,3 @@
 class Constants {
-  static String apiUrl = "localhost:4000";
+  static String apiUrl = "http://localhost:4000/";
 }

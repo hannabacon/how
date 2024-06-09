@@ -58,7 +58,7 @@ class Body extends StatelessWidget {
                       builder: (_) {
                       return Column(  
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: (store.detalhe_da_receita[0]['ingredientes'] as Map<String, dynamic>).entries.map((ingredient) {
+                          children: (store.details_recips[0]['ingredientes'] as Map<String, dynamic>).entries.map((ingredient) {
                             return Text(
                               '${ingredient.key}: ${ingredient.value}',
                               textAlign: TextAlign.left,
@@ -83,7 +83,7 @@ class Body extends StatelessWidget {
                     padding: const EdgeInsets.only(left: 10, top: 10),
                     child: Column(  
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: store.detalhe_da_receita.map((recipe) {
+                        children: store.details_recips.map((recipe) {
                           return Text(
                             recipe['preparo'],
                             textAlign: TextAlign.left,

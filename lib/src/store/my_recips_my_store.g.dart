@@ -29,8 +29,8 @@ mixin _$MyRecipsStore on MyRecipsBase, Store {
       AsyncAction('MyRecipsBase.getData', context: context);
 
   @override
-  Future<void> getData() {
-    return _$getDataAsyncAction.run(() => super.getData());
+  Future<void> getData(Map<String, String> data) {
+    return _$getDataAsyncAction.run(() => super.getData(data));
   }
 
   @override

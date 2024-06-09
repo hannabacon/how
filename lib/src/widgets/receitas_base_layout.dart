@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 
 class ReceitasBaseLayout extends StatelessWidget {
   final Widget body;
+  final String title;
 
-  const ReceitasBaseLayout({super.key, required this.body});
+  const ReceitasBaseLayout({super.key, required this.body, required this.title});
 
   void navigateToPage(BuildContext context, String route) {
     Navigator.pop(context);
@@ -23,12 +24,12 @@ class ReceitasBaseLayout extends StatelessWidget {
             child: Column(
               mainAxisSize: MainAxisSize.max,
               children: [
-                const Padding(
-                  padding: EdgeInsets.only(bottom: 32),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 32),
                   child: SafeArea(
                     child: Text(
-                      'Receita das meninas',
-                      style: TextStyle(
+                      title,
+                      style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         color: Colors.white,
                         fontSize: 20,
@@ -124,8 +125,9 @@ class ReceitasBaseLayout extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.red,
         centerTitle: true,
-        title: const Text('Receita das meninas',
-            style: TextStyle(
+        title: Text(title,
+
+            style: const TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 18,
                 color: Colors.white)),

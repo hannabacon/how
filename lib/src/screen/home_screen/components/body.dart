@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:how/src/helper/enums.dart';
@@ -18,25 +19,26 @@ class Body extends StatelessWidget {
         }
 
         if (store.statusPage == StatusPage.success) {
-          print(store.recips.length);
           return ListView.builder(
             key: store.globalKey,
+            primary: false,
+            shrinkWrap: true,
             itemCount: store.recips.length,
             itemBuilder: (context, index) {
               return ListTile(
                 title: Text(store.recips[index]['title']),
                 subtitle: Text(store.recips[index]['description']),
-                // leading: Container(
-                //   width: 90,
-                //   height: 90,
-                //   decoration: BoxDecoration(
-                //     borderRadius: BorderRadius.circular(16),
-                //     image: DecorationImage(
-                //       image: AssetImage(store.recips[index]['image']),
-                //       fit: BoxFit.fitHeight,
-                //     ),
-                //   ),
-                // ),
+                leading: Container(
+                  width: 90,
+                  height: 90,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(16),
+                    image: DecorationImage(
+                      image: CachedNetworkImageProvider(store.recips[index]['image']),
+                      fit: BoxFit.fitHeight,
+                    ),
+                  ),
+                ),
                 trailing: IconButton(
                   onPressed: () => Navigator.pushNamed(
                     context,

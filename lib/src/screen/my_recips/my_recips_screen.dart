@@ -9,6 +9,9 @@ class MyRecipsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ReceitasBaseLayout(body: Body());
+    return ReceitasBaseLayout(
+      title: 'Minhas Receitas',
+      body: Body(),
+    );
   }
 }

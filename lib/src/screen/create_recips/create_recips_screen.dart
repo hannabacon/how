@@ -10,6 +10,6 @@ class CreateRecipsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ReceitasBaseLayout(body: Body());
+    return ReceitasBaseLayout(body: Body(), title: 'Criando Receita',);
   }
 }

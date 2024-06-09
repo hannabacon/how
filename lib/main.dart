@@ -18,10 +18,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'How to Cook',
       theme: ThemeData(
         appBarTheme: const AppBarTheme(
-          backgroundColor: Color.fromARGB(255, 250, 138, 130),
+          backgroundColor: Colors.red,
           iconTheme: IconThemeData(color: Colors.white),
           centerTitle: true,
           titleTextStyle: TextStyle(color: Colors.white, fontSize: 20.0),
@@ -42,7 +42,7 @@ class MyApp extends StatelessWidget {
         //
         // This works for code too, not just values: Most code changes can be
         // tested with just a hot reload.
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.red),
         useMaterial3: true,
       ),
       home: const HomeScreen(),
@@ -58,3 +58,30 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.red,
+      body: Container(
+        alignment: Alignment.center,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            SizedBox(
+              width: 200,
+              height: 100,
+              child:
+                  Image.asset('assets/images/bolo_cenoura.jpg', fit: BoxFit.contain),
+            ),
+            const Padding(
+              padding: EdgeInsets.only(top: 40),
+              child: CircularProgressIndicator(
+                backgroundColor: Colors.white,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }

@@ -14,10 +14,11 @@ class RecipsService {
           user {
             name
           }
-          userId
           title
+          image
           makings
           description
+          preparation
           type
           createdAt
           updatedAt
@@ -28,18 +29,33 @@ class RecipsService {
       }
     ''');
 
-    try {
       graphql.QueryResult<Object?> response =
           await client!.value.query(graphql.QueryOptions(document: query));
-
-      if (response.hasException) {
-        print('GraphQL Error: ${response.exception}');
-      }
-
-      return response.data;
-    } catch (e) {
-      print('Error: $e');
-      return null;
+  
+  
+  return response.data;
     }
+
+  Future<Map<String, dynamic>?> findRecipsByUserId(data) async {
+    client = await Functions.generateGraphQLClient(useCache: false);
+
+    final query = graphql.gql(r'''
+      query Query($idUser: String!) {
+        findRecipsByUserId(idUser: $idUser) {
+          title
+          preparation
+          image
+          makings
+          description
+          type
+          updatedAt
+        }
+      }
+    ''');
+
+    graphql.QueryResult<Object?> response = await client!.value.query(graphql.QueryOptions(document: query, variables: data));
+
+    return response.data;
+
   }
 }

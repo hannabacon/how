@@ -9,6 +9,10 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ReceitasBaseLayout(body: Body());
+    return Scaffold(
+      body: ReceitasBaseLayout(
+        body: Body(), title: 'How to Cook',
+      ),
+    );
   }
 }
