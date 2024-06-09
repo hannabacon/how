@@ -38,7 +38,7 @@ class Body extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: IconButton(
-                        icon: const Icon(Icons.favorite_border, size: 30, color: Colors.white),
+                        icon: const Icon(Icons.favorite_border, size: 30, color: Colors.red),
                         onPressed: () {
                           // Adicione sua lógica para favoritar a receita aqui
                         },

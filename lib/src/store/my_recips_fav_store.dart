@@ -1,7 +1,6 @@
-// ignore_for_file: non_constant_identifier_names
-
 import 'package:flutter/material.dart';
 import 'package:how/src/helper/enums.dart';
+import 'package:how/src/services/recips_service.dart';
 import 'package:mobx/mobx.dart';
 
 part 'my_recips_fav_store.g.dart';
@@ -14,9 +13,9 @@ abstract class MyRecipsFavBase with Store {
     getData();
   }
 
-  ObservableList<dynamic> fav_recips = ObservableList<dynamic>();
+  ObservableList<dynamic> favRecips = ObservableList<dynamic>();
 
-  final GlobalKey<NavigatorState> fav_recipsKey = GlobalKey<NavigatorState>();
+  final GlobalKey<NavigatorState> globalKey = GlobalKey<NavigatorState>();
 
   @observable
   StatusPage statusPage = StatusPage.loading;
@@ -24,39 +23,21 @@ abstract class MyRecipsFavBase with Store {
   @action
   Future<void> getData() async {
     try {
-      fav_recips.clear();
+      statusPage = StatusPage.loading;
 
-      fav_recips.add({
-        'title': 'Bolo de cenoura',
-        'subtitle': 'Bolo de cenoura com cobertura de chocolate',
-        'image': 'assets/images/bolo_cenoura.jpg',
-      });
+      Map<String, dynamic>? allRecips = await RecipsService().listAllrecips();
 
-      fav_recips.add({
-        'title': 'Bolo de fubá',
-        'subtitle': 'Bolo de fubá com goiabada',
-        'image': 'assets/images/bolo_cenoura.jpg',
-      });
+      if (allRecips?['listAllrecips'] != null) {
+        // Filtra os itens com tipo 2
+        final filteredRecips = allRecips!['listAllrecips'].where((recip) {
+          final type = recip['type'] as String?;
+          return type == '2';
+        }).toList();    
+         
+        favRecips.addAll(filteredRecips);
+      }
 
-      fav_recips.add({
-        'title': 'Bolo de laranja',
-        'subtitle': 'Bolo de laranja com cobertura de laranja',
-        'image': 'assets/images/bolo_cenoura.jpg',
-      });
-
-      fav_recips.add({
-        'title': 'Bolo de milho',
-        'subtitle': 'Bolo de milho com cobertura de goiabada',
-        'image': 'assets/images/bolo_cenoura.jpg',
-      });
-
-      fav_recips.add({
-        'title': 'Bolo de chocolate',
-        'subtitle': 'Bolo de chocolate com cobertura de chocolate',
-        'image': 'assets/images/bolo_cenoura.jpg',
-      });
-      
-  statusPage = StatusPage.success;
+      statusPage = StatusPage.success;
     } catch (e) {
       statusPage = StatusPage.error;
     }
