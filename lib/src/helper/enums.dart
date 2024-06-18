@@ -1,3 +1,3 @@
 enum ScreenSize { small, medium, large, xlarge }
 
-enum StatusPage { loading, empty, error, success, loggedOut }
+enum StatusPage { loading, empty, error, idle, success, loggedOut }

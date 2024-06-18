@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart' as graphql;
+import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:how/src/helper/functions.dart';
 
 class RecipsService {
@@ -21,8 +22,6 @@ class RecipsService {
           description
           preparation
           type
-          createdAt
-          updatedAt
           recips {
             type
           }
@@ -47,7 +46,6 @@ class RecipsService {
           makings
           description
           type
-          updatedAt
         }
       }
     ''');
@@ -68,7 +66,6 @@ class RecipsService {
         image
         makings
         description
-        updatedAt
       }
     }
     ''');
@@ -78,18 +75,26 @@ class RecipsService {
     return response.data;
   }
 
-  Future<void> createRecips(data) async {
-    client = await Functions.generateGraphQLClient(useCache: false);
+  Future<void> createRecips(Map<String, dynamic> data) async {
+      client = await Functions.generateGraphQLClient(useCache: false);
 
-    final mutation = graphql.gql(r'''
-      mutation CreateRecips($data: RecipsInput!) {
-        createRecips(data: $data) {
-          idRecips
+      final mutation = gql(r'''
+        mutation CreateRecips($data: RecipsInput!) {
+          createRecips(data: $data) {
+            idRecips
+          }
         }
+      ''');
+
+      final options = MutationOptions(
+        document: mutation,
+        variables: {'data': data},
+      );
+
+      final result = await client!.value.mutate(options);
+
+      if (result.hasException) {
+        throw Exception(result.exception.toString());
       }
-    ''');
-
-    await client!.value.mutate(graphql.MutationOptions(document: mutation, variables: {'data': data}));
-  }
-
+    }
 }

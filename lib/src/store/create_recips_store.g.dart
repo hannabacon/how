@@ -41,6 +41,14 @@ mixin _$CreateRecipsStore on CreateRecipsBase, Store {
     });
   }
 
+  late final _$createRecipsAsyncAction =
+      AsyncAction('CreateRecipsBase.createRecips', context: context);
+
+  @override
+  Future<void> createRecips() {
+    return _$createRecipsAsyncAction.run(() => super.createRecips());
+  }
+
   late final _$CreateRecipsBaseActionController =
       ActionController(name: 'CreateRecipsBase', context: context);
 

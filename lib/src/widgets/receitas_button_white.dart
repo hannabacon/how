@@ -23,12 +23,26 @@ class ReceitasWhiteButton extends StatefulWidget {
 }
 
 class _ReceitasWhiteButtonState extends State<ReceitasWhiteButton> {
+  bool _isSelected = false;
+
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: widget.onClick,
+      onPressed: () {
+        setState(() {
+          _isSelected = !_isSelected;
+        });
+        widget.onClick();
+      },
       style: ButtonStyle(
-        backgroundColor: WidgetStateProperty.all( widget.variant == 'primary' ? Colors.white : Colors.red),
+        backgroundColor: WidgetStateProperty.resolveWith<Color>(
+          (Set<WidgetState> states) {
+            if (_isSelected) {
+              return widget.variant == 'primary' ? Colors.red : Colors.green;
+            }
+            return widget.variant == 'primary' ? Colors.white : Colors.red;
+          },
+        ),
         maximumSize: WidgetStateProperty.all(Size(widget.width, widget.height ?? 45)),
         shape: WidgetStateProperty.all(
           RoundedRectangleBorder(
@@ -40,7 +54,7 @@ class _ReceitasWhiteButtonState extends State<ReceitasWhiteButton> {
       child: Center(
         child: Text(
           widget.label,
-          style: TextStyle(fontSize: widget.fontSize ?? 14, color: widget.variant == 'primary' ? Colors.red : Colors.white),
+          style: TextStyle(fontSize: widget.fontSize ?? 14, color: _isSelected ? Colors.white : (widget.variant == 'primary' ? Colors.red : Colors.white)),
         ),
       ),
     );
