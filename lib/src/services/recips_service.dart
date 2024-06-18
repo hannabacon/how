@@ -78,4 +78,18 @@ class RecipsService {
     return response.data;
   }
 
+  Future<void> createRecips(data) async {
+    client = await Functions.generateGraphQLClient(useCache: false);
+
+    final mutation = graphql.gql(r'''
+      mutation CreateRecips($data: RecipsInput!) {
+        createRecips(data: $data) {
+          idRecips
+        }
+      }
+    ''');
+
+    await client!.value.mutate(graphql.MutationOptions(document: mutation, variables: {'data': data}));
+  }
+
 }
