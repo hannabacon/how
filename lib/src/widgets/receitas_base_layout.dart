@@ -4,7 +4,8 @@ class ReceitasBaseLayout extends StatelessWidget {
   final Widget body;
   final String title;
 
-  const ReceitasBaseLayout({super.key, required this.body, required this.title});
+  const ReceitasBaseLayout(
+      {super.key, required this.body, required this.title});
 
   void navigateToPage(BuildContext context, String route) {
     Navigator.pop(context);
@@ -13,7 +14,6 @@ class ReceitasBaseLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       drawer: Drawer(
         backgroundColor: Colors.red,
@@ -89,28 +89,40 @@ class ReceitasBaseLayout extends StatelessWidget {
                                 style: TextStyle(color: Colors.white)),
                             trailing: const Icon(Icons.keyboard_arrow_right,
                                 color: Colors.white),
-                            onTap: () => Navigator.pushNamed(context, '/my-recips-fav'),
-
+                            onTap: () =>
+                                Navigator.pushNamed(context, '/my-recips-fav'),
                           ),
                           ListTile(
-                            leading: const Icon(
-                                Icons.cake,
-                                color: Colors.white),
+                            leading:
+                                const Icon(Icons.cake, color: Colors.white),
                             title: const Text('Minhas Receitas',
                                 style: TextStyle(color: Colors.white)),
                             trailing: const Icon(Icons.keyboard_arrow_right,
                                 color: Colors.white),
-                            onTap: () => Navigator.pushNamed(context, '/my-recips'),
-
+                            onTap: () =>
+                                Navigator.pushNamed(context, '/my-recips'),
                           ),
                           ListTile(
-                            leading: const Icon(Icons.person,
-                                color: Colors.white),
+                            leading:
+                                const Icon(Icons.person, color: Colors.white),
                             title: const Text('Meu perfil',
                                 style: TextStyle(color: Colors.white)),
                             trailing: const Icon(Icons.keyboard_arrow_right,
                                 color: Colors.white),
-                            onTap: () => Navigator.pushNamed(context, '/my-profile'),
+                            onTap: () =>
+                                Navigator.pushNamed(context, '/my-profile'),
+                          ),
+                          const Padding(
+                              padding: EdgeInsets.only(bottom: 16),
+                              child: Divider(color: Colors.white)),
+                          ListTile(
+                            leading: const Icon(Icons.exit_to_app,
+                                color: Colors.white),
+                            title: const Text('Sair',
+                                style: TextStyle(color: Colors.white)),
+                            trailing: const Icon(Icons.keyboard_arrow_right,
+                                color: Colors.white),
+                            onTap: () => Navigator.pushNamed(context, '/login'),
                           ),
                         ],
                       )
@@ -126,7 +138,6 @@ class ReceitasBaseLayout extends StatelessWidget {
         backgroundColor: Colors.red,
         centerTitle: true,
         title: Text(title,
-
             style: const TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 18,
