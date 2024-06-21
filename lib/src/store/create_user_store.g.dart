@@ -25,6 +25,28 @@ mixin _$CreateUserStore on CreateUserBase, Store {
     });
   }
 
+  late final _$createUserAsyncAction =
+      AsyncAction('CreateUserBase.createUser', context: context);
+
+  @override
+  Future<void> createUser(BuildContext context) {
+    return _$createUserAsyncAction.run(() => super.createUser(context));
+  }
+
+  late final _$CreateUserBaseActionController =
+      ActionController(name: 'CreateUserBase', context: context);
+
+  @override
+  void setStatusPage(StatusPage value) {
+    final _$actionInfo = _$CreateUserBaseActionController.startAction(
+        name: 'CreateUserBase.setStatusPage');
+    try {
+      return super.setStatusPage(value);
+    } finally {
+      _$CreateUserBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
   @override
   String toString() {
     return '''

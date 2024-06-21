@@ -29,10 +29,11 @@ class RecipsService {
       }
     ''');
 
-      graphql.QueryResult<Object?> response = await client!.value.query(graphql.QueryOptions(document: query));
+    graphql.QueryResult<Object?> response =
+        await client!.value.query(graphql.QueryOptions(document: query));
 
-      return response.data;
-    }
+    return response.data;
+  }
 
   Future<Map<String, dynamic>?> findRecipsByUserId(data) async {
     client = await Functions.generateGraphQLClient(useCache: false);
@@ -50,14 +51,16 @@ class RecipsService {
       }
     ''');
 
-    graphql.QueryResult<Object?> response = await client!.value.query(graphql.QueryOptions(document: query, variables: data));
+    graphql.QueryResult<Object?> response = await client!.value
+        .query(graphql.QueryOptions(document: query, variables: data));
 
     return response.data;
   }
 
-  Future<Map<String, dynamic>?> findRecipsDetailsByIdRecips(String idRecips) async {
+  Future<Map<String, dynamic>?> findRecipsDetailsByIdRecips(
+      String idRecips) async {
     client = await Functions.generateGraphQLClient(useCache: false);
-  
+
     final query = graphql.gql(r'''
       query Query($idRecips: String!) {
        findRecipsDetailsByIdRecips(idRecips: $idRecips) {
@@ -69,16 +72,18 @@ class RecipsService {
       }
     }
     ''');
-  
-    graphql.QueryResult<Object?> response = await client!.value.query(graphql.QueryOptions(document: query, variables: {'idRecips': idRecips}));
-  
+
+    graphql.QueryResult<Object?> response = await client!.value.query(
+        graphql.QueryOptions(
+            document: query, variables: {'idRecips': idRecips}));
+
     return response.data;
   }
 
   Future<void> createRecips(Map<String, dynamic> data) async {
-      client = await Functions.generateGraphQLClient(useCache: false);
+    client = await Functions.generateGraphQLClient(useCache: false);
 
-      final mutation = gql(r'''
+    final mutation = gql(r'''
         mutation CreateRecips($data: RecipsInput!) {
           createRecips(data: $data) {
             idRecips
@@ -86,18 +91,44 @@ class RecipsService {
         }
       ''');
 
-      final options = MutationOptions(
-        document: mutation,
-        variables: {'data': data},
-      );
+    final options = MutationOptions(
+      document: mutation,
+      variables: {'data': data},
+    );
 
-      final result = await client!.value.mutate(options);
+    final result = await client!.value.mutate(options);
 
-      if (result.hasException) {
-        throw Exception(result.exception.toString());
-      }
+    if (result.hasException) {
+      throw Exception(result.exception.toString());
     }
+  }
 
-    
+  Future<void> updateRecips(Map<String, dynamic> data) async {
+    client = await Functions.generateGraphQLClient(useCache: false);
 
+    final mutation = gql(r'''
+        mutation UpdateRecips($data: UpdateRecipsInput!) {
+          updateRecips(data: $data) {
+            idRecips
+            title
+            preparation
+            image
+            makings
+            description
+            type
+          }
+        }
+      ''');
+
+    final options = MutationOptions(
+      document: mutation,
+      variables: {'data': data},
+    );
+
+    final result = await client!.value.mutate(options);
+
+    if (result.hasException) {
+      throw Exception(result.exception.toString());
+    }
+  }
 }

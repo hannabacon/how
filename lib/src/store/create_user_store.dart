@@ -1,7 +1,11 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:how/src/helper/enums.dart';
+import 'package:graphql_flutter/graphql_flutter.dart' as graphql;
 import 'package:mobx/mobx.dart';
+
+import '../services/graphql_service.dart';
 
 part 'create_user_store.g.dart';
 
@@ -19,50 +23,63 @@ abstract class CreateUserBase with Store {
   TextEditingController responsibleName = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
+  TextEditingController imageController = TextEditingController();
 
   @observable
   StatusPage statusPage = StatusPage.loading;
 
-//   @action
-//   Future<void> register() async {
-//     try {
-//       statusPage = StatusPage.loading;
+  @action
+  void setStatusPage(StatusPage value) => statusPage = value;
 
-//       if (formKey.currentState!.validate()) {
-//         if (passwordController.text != confirmPasswordController.text) {
-//           statusPage = StatusPage.success;
-//           Functions.showScaffoldMessage(observerKey.currentContext!, 'As senhas não coincidem.', isError: true);
-//           return;
-//         }
+  @action
+  Future<void> createUser(BuildContext context) async {
+    statusPage = StatusPage.loading;
+    try {
+      if (emailController.text.isEmpty ||
+          responsibleName.text.isEmpty ||
+          passwordController.text.isEmpty ||
+          confirmPasswordController.text.isEmpty ||
+          imageController.text.isEmpty) {
+        throw Exception('Preencha todos os campos!');
+      }
 
-//         /// Since the user and buyer do not depend on each other, use Future.wait
-//         /// to perform both requests simultaneously,  thereby increasing the
-//         /// performance of the application.
+      final client = await GraphQLService.generateClient(useCache: false);
 
-//         List<Map<String, dynamic>?> receivedDatas = await Future.wait([
-//           UserService().createUser({'email': emailController.text, 'name': responsibleName.text, 'password': passwordController.text, 'phoneNumber': phoneController.text}),
-//           BuyerService().createBuyer({'email': emailController.text,'phoneNumber': phoneController.text,'cnpj': cnpjController.text,'corporateReason': corporateReasonController.text,'fantasyName': fantasyNameController.text,'postalCode': postalCodeController.text,'state': selectedState,'city': selectedCity,'street': streetController.text,'number': numberController.text,'complement': complementController.text.isEmpty ? null : complementController.text}),
-//         ]);
+      final mutation = graphql.gql(r'''
+        mutation Mutation($data: CreateUsersInput!) {
+          createUser(data: $data) {
+            image
+            name
+            email
+            password
+          }
+        }
+      ''');
 
-//         if (receivedDatas.isNotEmpty) {
-//           Map<String, dynamic>? receivedBuyerUserData = await BuyerUserService().createBuyerUser({
-//             'buyerId': receivedDatas[1]!['createBuyer']['id'],
-//             'userId': receivedDatas[0]!['createUser']['id'],
-//             'name': responsibleName.text,
-//           });
+      final data = {
+        'name': responsibleName.text,
+        'email': emailController.text,
+        'password': passwordController.text,
+        'image': imageController.text,
+      };
 
-//           if (receivedBuyerUserData != null) {
-//             Functions.showScaffoldMessage(observerKey.currentContext!, 'Cadastro realizado com sucesso.');
-//             Navigator.pop(observerKey.currentContext!);
-//             return;
-//           }
-//         }
-//       }
+      graphql.QueryResult<Object?> response = await client.mutate(
+        graphql.MutationOptions(document: mutation, variables: {'data': data}),
+      );
 
-//       statusPage = StatusPage.success;
-//     } catch(err) {
-//       statusPage = StatusPage.error;
-//     }
-//   }
-// }
+      if (response.hasException) {
+        throw Exception('Erro ao criar usuário');
+      }
+
+      statusPage = StatusPage.success;
+
+      if (statusPage == StatusPage.success) {
+        // ignore: use_build_context_synchronously
+        ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Usuário criado com sucesso!')));
+      }
+    } catch (e) {
+      statusPage = StatusPage.error;
+    }
+  }
 }
