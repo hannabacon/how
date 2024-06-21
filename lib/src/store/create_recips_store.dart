@@ -54,7 +54,6 @@ abstract class CreateRecipsBase with mobx.Store {
   Future<void> createRecips() async {
     statusPage = StatusPage.loading;
     try {
-      // Verificar se os campos não são nulos ou vazios
       if (titleController.text.isEmpty ||
           descriptionController.text.isEmpty ||
           preparationController.text.isEmpty ||
@@ -106,15 +105,14 @@ abstract class CreateRecipsBase with mobx.Store {
     } catch (e) {
       statusPage = StatusPage.error;
 
-      // Mostrar uma mensagem de erro ao usuário
-      ScaffoldMessenger.of(observerKey.currentContext!).showSnackBar(
-        SnackBar(
-          content: Text(e is Exception && e.toString() == 'Todos os campos devem ser preenchidos'
-              ? e.toString()
-              : 'Ocorreu um erro ao criar a receita. Tente novamente.'),
-          duration: Duration(seconds: 3),
-        ),
-      );
+      // ScaffoldMessenger.of(observerKey.currentContext!).showSnackBar(
+      //   SnackBar(
+      //     content: Text(e is Exception && e.toString() == 'Todos os campos devem ser preenchidos'
+      //         ? e.toString()
+      //         : 'Ocorreu um erro ao criar a receita. Tente novamente.'),
+      //     duration: Duration(seconds: 3),
+      //   ),
+      // );
     }
   }
 }

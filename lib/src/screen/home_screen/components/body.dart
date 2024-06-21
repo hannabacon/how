@@ -27,32 +27,44 @@ class Body extends StatelessWidget {
             itemCount: store.recips.length,
             itemBuilder: (context, index) {
               final idRecips = store.recips[index]['idRecips'] as String?;
-              return ListTile(
-                title: Text(store.recips[index]['title']),
-                subtitle: Text(store.recips[index]['description']),
-                leading: Container(
-                  width: 90,
-                  height: 90,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(16),
-                    image: DecorationImage(
-                      image: CachedNetworkImageProvider(store.recips[index]['image']),
-                      fit: BoxFit.fitHeight,
+              return InkWell(
+                onTap: idRecips != null
+                    ? () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => HomeDetailsScreen(idRecips: idRecips),
+                          ),
+                        );
+                      }
+                    : null,
+                child: ListTile(
+                  title: Text(store.recips[index]['title']),
+                  subtitle: Text(store.recips[index]['description']),
+                  leading: Container(
+                    width: 90,
+                    height: 90,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(16),
+                      image: DecorationImage(
+                        image: CachedNetworkImageProvider(store.recips[index]['image']),
+                        fit: BoxFit.fitHeight,
+                      ),
                     ),
                   ),
-                ),
-                trailing: IconButton(
-                  onPressed: idRecips != null
-                      ? () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => HomeDetailsScreen(idRecips: idRecips),
-                            ),
-                          );
-                        }
-                      : null,
-                  icon: const Icon(Icons.arrow_forward_ios_rounded),
+                  trailing: IconButton(
+                    onPressed: idRecips != null
+                        ? () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => HomeDetailsScreen(idRecips: idRecips),
+                              ),
+                            );
+                          }
+                        : null,
+                    icon: const Icon(Icons.arrow_forward_ios_rounded),
+                  ),
                 ),
               );
             },
