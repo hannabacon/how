@@ -25,22 +25,6 @@ mixin _$CreateRecipsStore on CreateRecipsBase, Store {
     });
   }
 
-  late final _$textControllersAtom =
-      Atom(name: 'CreateRecipsBase.textControllers', context: context);
-
-  @override
-  ObservableList<TextEditingController> get textControllers {
-    _$textControllersAtom.reportRead();
-    return super.textControllers;
-  }
-
-  @override
-  set textControllers(ObservableList<TextEditingController> value) {
-    _$textControllersAtom.reportWrite(value, super.textControllers, () {
-      super.textControllers = value;
-    });
-  }
-
   late final _$createRecipsAsyncAction =
       AsyncAction('CreateRecipsBase.createRecips', context: context);
 
@@ -77,8 +61,7 @@ mixin _$CreateRecipsStore on CreateRecipsBase, Store {
   @override
   String toString() {
     return '''
-statusPage: ${statusPage},
-textControllers: ${textControllers}
+statusPage: ${statusPage}
     ''';
   }
 }

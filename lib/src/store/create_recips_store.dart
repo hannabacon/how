@@ -28,11 +28,7 @@ abstract class CreateRecipsBase with mobx.Store {
   @observable
   StatusPage statusPage = StatusPage.idle;
 
-   @observable
   ObservableList<TextEditingController> textControllers = ObservableList<TextEditingController>();
-
-  @observable
-  // List<TextEditingController> textControllers = [];
 
   @action
   void addTextField() {
