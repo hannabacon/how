@@ -25,6 +25,16 @@ mixin _$MyRecipsEditStore on MyRecipsEditBase, Store {
     });
   }
 
+  late final _$updateRecipsFromControllersAsyncAction = AsyncAction(
+      'MyRecipsEditBase.updateRecipsFromControllers',
+      context: context);
+
+  @override
+  Future<void> updateRecipsFromControllers() {
+    return _$updateRecipsFromControllersAsyncAction
+        .run(() => super.updateRecipsFromControllers());
+  }
+
   late final _$MyRecipsEditBaseActionController =
       ActionController(name: 'MyRecipsEditBase', context: context);
 
@@ -34,6 +44,17 @@ mixin _$MyRecipsEditStore on MyRecipsEditBase, Store {
         name: 'MyRecipsEditBase.addTextField');
     try {
       return super.addTextField();
+    } finally {
+      _$MyRecipsEditBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void removeTextField() {
+    final _$actionInfo = _$MyRecipsEditBaseActionController.startAction(
+        name: 'MyRecipsEditBase.removeTextField');
+    try {
+      return super.removeTextField();
     } finally {
       _$MyRecipsEditBaseActionController.endAction(_$actionInfo);
     }
