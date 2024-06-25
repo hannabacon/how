@@ -131,4 +131,28 @@ class RecipsService {
       throw Exception(result.exception.toString());
     }
   }
+
+  Future<void> deleteRecips(String idRecips) async {
+    client = await Functions.generateGraphQLClient(useCache: false);
+
+    final mutation = gql(r'''
+       mutation Mutation($idRecips: String!) {
+        deleteRecips(idRecips: $idRecips) {
+          idRecips
+        }
+      }
+    ''');
+
+    final options = MutationOptions(
+      document: mutation,
+      variables: {'idRecips': idRecips},
+    );
+
+    final result = await client!.value.mutate(options);
+
+    if (result.hasException) {
+      throw Exception(result.exception.toString());
+    }
+  }
+
 }

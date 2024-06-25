@@ -49,7 +49,6 @@ abstract class MyRecipsEditBase with Store {
     makingsController.text = recips?['makings'];
   }
   
-
   @action
   Future<void> updateRecipsFromControllers() async {
     Map<String, dynamic> data = {
@@ -70,4 +69,16 @@ abstract class MyRecipsEditBase with Store {
       print("Error updating recips: $e");
     }
   }
+
+  @action
+  Future<void> deleteRecips() async {
+    try {
+      await RecipsService().deleteRecips('clxkvirbx000p1yxwx4c4d7qc');
+      statusPage = StatusPage.success;
+    } catch (e) {
+      statusPage = StatusPage.error;
+      print("Error deleting recips: $e");
+    }
+  }
+
 }

@@ -87,6 +87,17 @@ class Body extends StatelessWidget {
                 ),
                 const SizedBox(height: 30),
                 ReceitasButton(
+                  label: "Excluir Receita",
+                  width: 450,
+                  onClick: () async {
+                    await store.deleteRecips();
+                    Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(builder: (context) => const MyRecipsScreen()),
+                    );
+                  },
+                ),
+                const SizedBox(height: 10),
+                ReceitasButton(
                   label: "Salvar",
                   width: 450,
                   onClick: () async {
@@ -101,7 +112,7 @@ class Body extends StatelessWidget {
                     if (store.statusPage == StatusPage.success) {
                       WidgetsBinding.instance.addPostFrameCallback((_) {
                         ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('Receita atualizada com sucesso!')),
+                          const SnackBar(content: Text(':)')),
                         );
                       });
                     }

@@ -10,7 +10,7 @@ class MyRecipsStore = MyRecipsBase with _$MyRecipsStore;
 abstract class MyRecipsBase with Store {
   MyRecipsBase() {
     statusPage = StatusPage.loading;
-    getData({'idUser': 'clx70v0p2000011wh4lv00b87'});
+    getData({'idUser': 'clx6zeodo0000so7zat5aew8a'});
   }
 
   ObservableList<dynamic> myRecips = ObservableList<dynamic>();

@@ -35,6 +35,14 @@ mixin _$MyRecipsEditStore on MyRecipsEditBase, Store {
         .run(() => super.updateRecipsFromControllers());
   }
 
+  late final _$deleteRecipsAsyncAction =
+      AsyncAction('MyRecipsEditBase.deleteRecips', context: context);
+
+  @override
+  Future<void> deleteRecips() {
+    return _$deleteRecipsAsyncAction.run(() => super.deleteRecips());
+  }
+
   late final _$MyRecipsEditBaseActionController =
       ActionController(name: 'MyRecipsEditBase', context: context);
 
