@@ -58,7 +58,7 @@ abstract class MyRecipsEditBase with Store {
       if (typeController.text.isNotEmpty) 'type': typeController.text,
       if (imageController.text.isNotEmpty) 'image': imageController.text,
       if (makingsController.text.isNotEmpty) 'makings': makingsController.text,
-      'idRecips': 'clx70t07w000212o22hjshdua',
+      'idRecips': 'clxktkmux00071yxwfbwkd1ke',
     };
   
     try {
@@ -73,7 +73,7 @@ abstract class MyRecipsEditBase with Store {
   @action
   Future<void> deleteRecips() async {
     try {
-      await RecipsService().deleteRecips('clxkvirbx000p1yxwx4c4d7qc');
+      await RecipsService().deleteRecips('clxktkmux00071yxwfbwkd1ke');
       statusPage = StatusPage.success;
     } catch (e) {
       statusPage = StatusPage.error;

@@ -36,7 +36,7 @@ class Body extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(top: 40),
                       child: Image.asset(
-                        '/images/logonova.png',
+                        '/images/how.png',
                         height: 250,
                       ),
                     ),
@@ -115,7 +115,7 @@ class Body extends StatelessWidget {
                             child: ReceitasButton(
                               label: 'Entrar',
                               width: MediaQuery.of(context).size.width,
-                              onClick: () => store.login(),
+                              onClick: () => Navigator.pushNamed(context, '/home'),
                             ),
                           ),
                           Padding(

@@ -101,7 +101,7 @@ class Body extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       ReceitasWhiteButton(
-                          label: "Salvar Favorita",
+                          label: "Favoritar",
                           width: 130,
                           onClick: () {
                             store.typeController.text = '2';
@@ -124,16 +124,16 @@ class Body extends StatelessWidget {
                     label: "Criar",
                     onClick: () async {
                       await store.createRecips();
-                      // if (store.statusPage == StatusPage.success) {
-                      //   ScaffoldMessenger.of(context).showSnackBar(
-                      //     const SnackBar(
-                      //       content:
-                      //           Text('Sua receita foi criada com sucesso!'),
-                      //       duration: Duration(seconds: 3),
-                      //     ),
-                      //   );
-                      //   Navigator.of(context).pushNamed('/my-recips');
-                      // }
+                      if (store.statusPage == StatusPage.success) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content:
+                                Text('Sua receita foi criada com sucesso!'),
+                            duration: Duration(seconds: 3),
+                          ),
+                        );
+                        Navigator.of(context).pushNamed('/my-recips');
+                      }
                     },
                     width: 300,
                   );

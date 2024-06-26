@@ -16,6 +16,7 @@ abstract class HomeDetailsBase with Store {
 }
 
   ObservableList<Map<String, dynamic>> recipeDetails = ObservableList<Map<String, dynamic>>();
+  TextEditingController typeController = TextEditingController();
 
   final GlobalKey<NavigatorState> globalKey = GlobalKey<NavigatorState>();
 
@@ -39,4 +40,21 @@ abstract class HomeDetailsBase with Store {
       statusPage = StatusPage.error;
     }
   }
+
+  @action
+  Future<void> updateRecipsFromControllers() async {
+    Map<String, dynamic> data = {
+      if (typeController.text.isNotEmpty) 'type': typeController.text,
+      'idRecips': 'clxktkmux00071yxwfbwkd1ke',
+    };
+  
+    try {
+      await RecipsService().updateRecips(data);
+      statusPage = StatusPage.success;
+    } catch (e) {
+      statusPage = StatusPage.error;
+      print("Error updating recips: $e");
+    }
+  }
+
 }

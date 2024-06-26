@@ -1,6 +1,9 @@
+// ignore_for_file: unrelated_type_equality_checks
+
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:how/src/helper/enums.dart';
+import 'package:how/src/services/recips_service.dart';
 import 'package:how/src/store/home_details_store.dart';
 import 'package:how/src/widgets/receitas_loading.dart';
 
@@ -35,14 +38,10 @@ class Body extends StatelessWidget {
                         width: 300,
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: IconButton(
-                        icon: const Icon(Icons.favorite_border, size: 30, color: Colors.red),
-                        onPressed: () {
-                          // Adicione sua lógica para favoritar a receita aqui
-                        },
-                      ),
+                    IconButton(
+                      onPressed: () {
+                      },
+                      icon: const Icon(Icons.favorite),
                     ),
                   ],
                 ),

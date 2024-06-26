@@ -33,6 +33,16 @@ mixin _$HomeDetailsStore on HomeDetailsBase, Store {
     return _$getDataAsyncAction.run(() => super.getData(idRecips));
   }
 
+  late final _$updateRecipsFromControllersAsyncAction = AsyncAction(
+      'HomeDetailsBase.updateRecipsFromControllers',
+      context: context);
+
+  @override
+  Future<void> updateRecipsFromControllers() {
+    return _$updateRecipsFromControllersAsyncAction
+        .run(() => super.updateRecipsFromControllers());
+  }
+
   @override
   String toString() {
     return '''
