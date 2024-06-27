@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:how/src/helper/enums.dart';
@@ -5,6 +7,7 @@ import 'package:how/src/store/create_recips_store.dart';
 import 'package:how/src/widgets/receitas_button.dart';
 import 'package:how/src/widgets/receitas_button_white.dart';
 import 'package:how/src/widgets/receitas_textfield.dart';
+import 'package:image_picker/image_picker.dart';
 
 class Body extends StatelessWidget {
   final CreateRecipsStore store = CreateRecipsStore();
@@ -17,18 +20,67 @@ class Body extends StatelessWidget {
       key: store.scaffoldKey,
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.only(top: 30, left: 10, right: 10),
           child: Column(
             children: [
-              // Campo para adicionar e editar imagens
-              Container(
-                height: 200,
-                color: Colors.grey[200],
-                child: const Center(
-                  child: Text('Adicionar/Editar Imagens'),
-                ),
+              Observer(
+                builder: (_) {
+                  return GestureDetector(
+                    onTap: () {
+                      showModalBottomSheet(
+                        context: context,
+                        builder: (BuildContext bc) {
+                          return SafeArea(
+                            child: Wrap(
+                              children: <Widget>[
+                                ListTile(
+                                  leading: const Icon(Icons.photo_library),
+                                  title: const Text('Galeria'),
+                                  onTap: () {
+                                    store.pickImage(ImageSource.gallery);
+                                    Navigator.of(context).pop();
+                                  },
+                                ),
+                                ListTile(
+                                  leading: const Icon(Icons.photo_camera),
+                                  title: const Text('Câmera'),
+                                  onTap: () {
+                                    store.pickImage(ImageSource.camera);
+                                    Navigator.of(context).pop();
+                                  },
+                                ),
+                                ListTile(
+                                  leading: const Icon(
+                                      Icons.restore_from_trash_rounded),
+                                  title: const Text('Remover imagem'),
+                                  onTap: () {
+                                    store.removeImage();
+                                    Navigator.of(context).pop();
+                                  },
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                      );
+                    },
+                    child: Observer(
+                      builder: (_) {
+                        return CircleAvatar(
+                          radius: 60,
+                          backgroundImage: store.imageUrl != null
+                              ? NetworkImage(store.imageUrl!)
+                              : null,
+                          child: store.imageUrl == null
+                              ? const Icon(Icons.fastfood_sharp, size: 60)
+                              : null,
+                        );
+                      },
+                    ),
+                  );
+                },
               ),
-              const SizedBox(height: 20),
+              const Padding(padding: EdgeInsets.only(top: 20)),
               ReceitasTextfield(
                   label: "Titulo",
                   controller: store.titleController,
@@ -48,14 +100,6 @@ class Body extends StatelessWidget {
               ReceitasTextfield(
                   label: "Modo de Preparo",
                   controller: store.preparationController,
-                  keyboardType: TextInputType.text,
-                  obscureText: false,
-                  autoFocus: false,
-                  enabled: true),
-              const SizedBox(height: 10),
-              ReceitasTextfield(
-                  label: "Foto",
-                  controller: store.imageController,
                   keyboardType: TextInputType.text,
                   obscureText: false,
                   autoFocus: false,

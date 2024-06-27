@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:mobx/mobx.dart' as mobx;
 import 'package:graphql_flutter/graphql_flutter.dart' as graphql;
 import 'package:how/src/helper/enums.dart';
@@ -10,6 +13,8 @@ part 'create_recips_store.g.dart';
 class CreateRecipsStore = CreateRecipsBase with _$CreateRecipsStore;
 
 abstract class CreateRecipsBase with mobx.Store {
+  final ImagePicker imagePicker = ImagePicker();
+
   CreateRecipsBase() {
     textControllers.add(TextEditingController());
     statusPage = StatusPage.idle;
@@ -28,7 +33,8 @@ abstract class CreateRecipsBase with mobx.Store {
   @observable
   StatusPage statusPage = StatusPage.idle;
 
-  ObservableList<TextEditingController> textControllers = ObservableList<TextEditingController>();
+  ObservableList<TextEditingController> textControllers =
+      ObservableList<TextEditingController>();
 
   @action
   void addTextField() {
@@ -40,6 +46,34 @@ abstract class CreateRecipsBase with mobx.Store {
     if (textControllers.isNotEmpty) {
       textControllers.removeLast();
     }
+  }
+
+  @observable
+  File? imageFile;
+
+  @observable
+  String? imageUrl;
+
+  @action
+  Future<void> pickImage(ImageSource source) async {
+    try {
+      final pickedFile = await imagePicker.pickImage(source: source);
+
+      if (pickedFile != null) {
+        imageUrl = pickedFile.path;
+        imageController.text = pickedFile.path;
+      } else {
+        print('Nenhuma imagem selecionada.');
+      }
+    } catch (e) {
+      print('Erro ao selecionar imagem: $e');
+    }
+  }
+
+  @action
+  void removeImage() {
+    imageUrl = null;
+    imageController.clear();
   }
 
   String getCombinedText() {
@@ -100,15 +134,6 @@ abstract class CreateRecipsBase with mobx.Store {
       );
     } catch (e) {
       statusPage = StatusPage.error;
-
-      // ScaffoldMessenger.of(observerKey.currentContext!).showSnackBar(
-      //   SnackBar(
-      //     content: Text(e is Exception && e.toString() == 'Todos os campos devem ser preenchidos'
-      //         ? e.toString()
-      //         : 'Ocorreu um erro ao criar a receita. Tente novamente.'),
-      //     duration: Duration(seconds: 3),
-      //   ),
-      // );
     }
   }
 }

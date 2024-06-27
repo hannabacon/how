@@ -92,7 +92,7 @@ abstract class MyProfileBase with Store {
   Future<void> updateUser() async {
     try {
       statusPage = StatusPage.loading;
-
+  
       Map<String, dynamic> data = {
         'idUser': user['idUser'],
         'name': nameController.text,
@@ -100,9 +100,9 @@ abstract class MyProfileBase with Store {
         'email': emailController.text,
         'password': passwordController.text,
       };
-
+  
       await userService.updateUser(data);
-
+  
       statusPage = StatusPage.success;
     } catch (e) {
       statusPage = StatusPage.error;

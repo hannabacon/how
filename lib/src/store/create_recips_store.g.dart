@@ -25,6 +25,46 @@ mixin _$CreateRecipsStore on CreateRecipsBase, Store {
     });
   }
 
+  late final _$imageFileAtom =
+      Atom(name: 'CreateRecipsBase.imageFile', context: context);
+
+  @override
+  File? get imageFile {
+    _$imageFileAtom.reportRead();
+    return super.imageFile;
+  }
+
+  @override
+  set imageFile(File? value) {
+    _$imageFileAtom.reportWrite(value, super.imageFile, () {
+      super.imageFile = value;
+    });
+  }
+
+  late final _$imageUrlAtom =
+      Atom(name: 'CreateRecipsBase.imageUrl', context: context);
+
+  @override
+  String? get imageUrl {
+    _$imageUrlAtom.reportRead();
+    return super.imageUrl;
+  }
+
+  @override
+  set imageUrl(String? value) {
+    _$imageUrlAtom.reportWrite(value, super.imageUrl, () {
+      super.imageUrl = value;
+    });
+  }
+
+  late final _$pickImageAsyncAction =
+      AsyncAction('CreateRecipsBase.pickImage', context: context);
+
+  @override
+  Future<void> pickImage(ImageSource source) {
+    return _$pickImageAsyncAction.run(() => super.pickImage(source));
+  }
+
   late final _$createRecipsAsyncAction =
       AsyncAction('CreateRecipsBase.createRecips', context: context);
 
@@ -59,9 +99,22 @@ mixin _$CreateRecipsStore on CreateRecipsBase, Store {
   }
 
   @override
+  void removeImage() {
+    final _$actionInfo = _$CreateRecipsBaseActionController.startAction(
+        name: 'CreateRecipsBase.removeImage');
+    try {
+      return super.removeImage();
+    } finally {
+      _$CreateRecipsBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
-statusPage: ${statusPage}
+statusPage: ${statusPage},
+imageFile: ${imageFile},
+imageUrl: ${imageUrl}
     ''';
   }
 }
