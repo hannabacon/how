@@ -1,22 +1,19 @@
-import 'package:flutter/cupertino.dart';
+import 'dart:html' as html;
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:how/src/helper/enums.dart';
-import 'package:graphql_flutter/graphql_flutter.dart' as graphql;
+import 'package:how/src/services/graphql_service.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:mobx/mobx.dart';
-
-import '../services/graphql_service.dart';
+import 'dart:io';
+import 'package:graphql/client.dart' as graphql;
 
 part 'create_user_store.g.dart';
 
 class CreateUserStore = CreateUserBase with _$CreateUserStore;
 
 abstract class CreateUserBase with Store {
-  CreateUserBase() {
-    // getData();
-  }
+  final ImagePicker imagePicker = ImagePicker();
 
-  GlobalKey<State> observerKey = GlobalKey<State>();
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   TextEditingController emailController = TextEditingController();
@@ -26,10 +23,39 @@ abstract class CreateUserBase with Store {
   TextEditingController imageController = TextEditingController();
 
   @observable
+  File? imageFile;
+
+  @observable
+  String? imageUrl;
+
+  @observable
   StatusPage statusPage = StatusPage.loading;
 
   @action
   void setStatusPage(StatusPage value) => statusPage = value;
+
+  @action
+  Future<void> pickImage(ImageSource source) async {
+    try {
+      final pickedFile = await imagePicker.pickImage(source: source);
+
+      if (pickedFile != null) {
+        imageUrl = pickedFile.path;
+        imageController.text = pickedFile.path;
+      } else {
+        // Usuário cancelou a seleção da imagem
+        print('Nenhuma imagem selecionada.');
+      }
+    } catch (e) {
+      print('Erro ao selecionar imagem: $e');
+    }
+  }
+
+  @action
+  void removeImage() {
+    imageUrl = null;
+    imageController.clear();
+  }
 
   @action
   Future<void> createUser(BuildContext context) async {
@@ -46,14 +72,14 @@ abstract class CreateUserBase with Store {
       final client = await GraphQLService.generateClient(useCache: false);
 
       final mutation = graphql.gql(r'''
-        mutation Mutation($data: CreateUsersInput!) {
-          createUser(data: $data) {
-            image
-            name
-            email
-            password
-          }
+      mutation Mutation($data: CreateUsersInput!) {
+        createUser(data: $data) {
+          image
+          name
+          email
+          password
         }
+      }
       ''');
 
       final data = {
@@ -74,11 +100,11 @@ abstract class CreateUserBase with Store {
       statusPage = StatusPage.success;
 
       if (statusPage == StatusPage.success) {
-        // ignore: use_build_context_synchronously
         ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text('Usuário criado com sucesso!')));
       }
     } catch (e) {
+      print('Erro ao criar usuário: $e');
       statusPage = StatusPage.error;
     }
   }

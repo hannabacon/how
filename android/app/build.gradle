@@ -27,6 +27,7 @@ android {
     namespace = "com.example.how"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
+    compileSdkVersion localProperties.getProperty('flutter.compileSdkVersion').toInteger()
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
