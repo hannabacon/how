@@ -72,15 +72,15 @@ abstract class CreateUserBase with Store {
       final client = await GraphQLService.generateClient(useCache: false);
 
       final mutation = graphql.gql(r'''
-      mutation Mutation($data: CreateUsersInput!) {
-        createUser(data: $data) {
-          image
-          name
-          email
-          password
+        mutation Mutation($data: CreateUsersInput!) {
+          createUser(data: $data) {
+            image
+            name
+            email
+            password
+          }
         }
-      }
-      ''');
+        ''');
 
       final data = {
         'name': responsibleName.text,

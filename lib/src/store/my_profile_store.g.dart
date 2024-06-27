@@ -9,6 +9,21 @@ part of 'my_profile_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic, no_leading_underscores_for_local_identifiers
 
 mixin _$MyProfileStore on MyProfileBase, Store {
+  late final _$userAtom = Atom(name: 'MyProfileBase.user', context: context);
+
+  @override
+  Map<String, dynamic> get user {
+    _$userAtom.reportRead();
+    return super.user;
+  }
+
+  @override
+  set user(Map<String, dynamic> value) {
+    _$userAtom.reportWrite(value, super.user, () {
+      super.user = value;
+    });
+  }
+
   late final _$statusPageAtom =
       Atom(name: 'MyProfileBase.statusPage', context: context);
 
@@ -25,44 +40,83 @@ mixin _$MyProfileStore on MyProfileBase, Store {
     });
   }
 
-  late final _$selectedStateAtom =
-      Atom(name: 'MyProfileBase.selectedState', context: context);
+  late final _$imageFileAtom =
+      Atom(name: 'MyProfileBase.imageFile', context: context);
 
   @override
-  String get selectedState {
-    _$selectedStateAtom.reportRead();
-    return super.selectedState;
+  File? get imageFile {
+    _$imageFileAtom.reportRead();
+    return super.imageFile;
   }
 
   @override
-  set selectedState(String value) {
-    _$selectedStateAtom.reportWrite(value, super.selectedState, () {
-      super.selectedState = value;
+  set imageFile(File? value) {
+    _$imageFileAtom.reportWrite(value, super.imageFile, () {
+      super.imageFile = value;
     });
   }
 
-  late final _$selectedCityAtom =
-      Atom(name: 'MyProfileBase.selectedCity', context: context);
+  late final _$imageUrlAtom =
+      Atom(name: 'MyProfileBase.imageUrl', context: context);
 
   @override
-  String get selectedCity {
-    _$selectedCityAtom.reportRead();
-    return super.selectedCity;
+  String? get imageUrl {
+    _$imageUrlAtom.reportRead();
+    return super.imageUrl;
   }
 
   @override
-  set selectedCity(String value) {
-    _$selectedCityAtom.reportWrite(value, super.selectedCity, () {
-      super.selectedCity = value;
+  set imageUrl(String? value) {
+    _$imageUrlAtom.reportWrite(value, super.imageUrl, () {
+      super.imageUrl = value;
     });
+  }
+
+  late final _$pickImageAsyncAction =
+      AsyncAction('MyProfileBase.pickImage', context: context);
+
+  @override
+  Future<void> pickImage(ImageSource source) {
+    return _$pickImageAsyncAction.run(() => super.pickImage(source));
+  }
+
+  late final _$getDataAsyncAction =
+      AsyncAction('MyProfileBase.getData', context: context);
+
+  @override
+  Future<void> getData(String idUser) {
+    return _$getDataAsyncAction.run(() => super.getData(idUser));
+  }
+
+  late final _$updateUserAsyncAction =
+      AsyncAction('MyProfileBase.updateUser', context: context);
+
+  @override
+  Future<void> updateUser() {
+    return _$updateUserAsyncAction.run(() => super.updateUser());
+  }
+
+  late final _$MyProfileBaseActionController =
+      ActionController(name: 'MyProfileBase', context: context);
+
+  @override
+  void removeImage() {
+    final _$actionInfo = _$MyProfileBaseActionController.startAction(
+        name: 'MyProfileBase.removeImage');
+    try {
+      return super.removeImage();
+    } finally {
+      _$MyProfileBaseActionController.endAction(_$actionInfo);
+    }
   }
 
   @override
   String toString() {
     return '''
+user: ${user},
 statusPage: ${statusPage},
-selectedState: ${selectedState},
-selectedCity: ${selectedCity}
+imageFile: ${imageFile},
+imageUrl: ${imageUrl}
     ''';
   }
 }
